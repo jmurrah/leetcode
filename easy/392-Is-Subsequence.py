@@ -6,6 +6,7 @@ A subsequence of a string is a new string that is formed from the original strin
 (i.e., 'ace' is a subsequence of 'abcde' while 'aec' is not).
 """
 
+
 class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
         c = i = 0
