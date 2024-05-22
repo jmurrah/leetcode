@@ -9,24 +9,21 @@ An input string is valid if:
 """
 
 
-class Solution(object):
-    def isValid(self, s):
-        pair = {
-            ")": "(",
-            "]": "[",
-            "}": "{"
-        }
+class Solution:
+    def isValid(self, s: str) -> bool:
         stack = []
-      
-        if len(s) % 2 == 1:
-            return False
-          
+        d = {
+            "[": "]",
+            "{": "}",
+            "(": ")"
+        }
+
         for i in s:
-            if i in ("(", "[", "{"):
+            if i not in ")]}":
                 stack.append(i)
-            elif stack and pair[i] == stack[-1]:
+            elif stack and d[stack[-1]] == i:
                 stack.pop()
             else:
                 return False
-
+        
         return not stack
