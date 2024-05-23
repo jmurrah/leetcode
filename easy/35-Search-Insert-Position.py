@@ -6,10 +6,17 @@ You must write an algorithm with O(log n) runtime complexity.
 """
 
 
-class Solution(object):
-    def searchInsert(self, nums, target):
-        for i in range(len(nums)):
-            if nums[i] >= target:
-                return i
-        
-        return len(nums)
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        l, r = 0, len(nums) - 1
+
+        while l <= r:
+            m = (l + r) // 2
+            if nums[m] == target:
+                return m
+            elif target < nums[m]:
+                r = m - 1
+            else:
+                l = m + 1
+
+        return r + 1
