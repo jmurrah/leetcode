@@ -7,19 +7,18 @@ Return the size of the longest non-empty subarray containing only 1's in the res
 
 class Solution:
     def longestSubarray(self, nums: List[int]) -> int:
-        l = c = m = z = 0
+        longest = 0
+        zeroes = 0
+        l = 0
 
         for r in range(len(nums)):
             if nums[r] == 0:
-                z += 1
-            c += 1
+                zeroes += 1
 
-            if z > 1:
-                if nums[l] == 0:
-                    z -= 1
+            if zeroes > 1:
+                if nums[l] == 0: zeroes -= 1
                 l += 1
-                c -= 1
             else:
-                m = max(c, m)
+                longest = max(longest, r-l)
         
-        return m-1
+        return longest if zeroes != 0 else len(nums)-1
