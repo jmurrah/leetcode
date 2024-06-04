@@ -12,10 +12,8 @@ class Solution:
         for i in s:
             count = 1
             if i-1 not in s:
-                current = i + 1
-                while current in s:
+                while i + count in s:
                     count += 1
-                    current += 1
                 m = max(count, m)
         
         return m
