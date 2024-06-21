@@ -8,28 +8,31 @@ The testcases will be generated such that the answer is unique.
 
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        if not t or not s:
-            return ""
-        
-        counter = Counter(t)
-        num_missing = len(t)
-        min_window_length = float('inf')
+        correct_count, current_count = Counter(t), defaultdict(int)
+        letters_needed, min_length = len(correct_count), float("inf")
 
         l = r = 0
         while r < len(s):
-            if counter[s[r]] > 0:
-                num_missing -= 1
-            counter[s[r]] -= 1
+            right_char = s[r]
+            if right_char in correct_count:
+                current_count[right_char] += 1
+                if current_count[right_char] == correct_count[right_char]:
+                    letters_needed -= 1
+            
             r += 1
 
-            while num_missing == 0:
-                if (r - l) < min_window_length:
-                    min_window_length = r - l
-                    substring = s[l:r]
+            while letters_needed == 0:
+                current_length = r - l
+                if current_length < min_length:
+                    min_length = current_length
+                    output = s[l:r]
 
-                counter[s[l]] += 1
-                if counter[s[l]] > 0:
-                    num_missing += 1
+                left_char = s[l]
+                if left_char in correct_count:
+                    current_count[left_char] -= 1
+                    if current_count[left_char] < correct_count[left_char]:
+                        letters_needed += 1
+
                 l += 1
-
-        return substring if min_window_length != float('inf') else ""
+        
+        return output if min_length != float("inf") else ""
