@@ -14,16 +14,16 @@ class Solution:
         output = []
 
         def add(i, current_sum, current_list):
-            if current_sum > target:
+            if current_sum > target or i >= len(candidates):
                 return
             if current_sum == target:
                 output.append(current_list.copy())
                 return
 
-            for j in range(i, len(candidates)):
-                current_list.append(candidates[j])
-                add(j, current_sum + candidates[j], current_list)
-                current_list.pop()
+            current_list.append(candidates[i])
+            add(i, current_sum + candidates[i], current_list)
+            current_list.pop()
+            add(i+1, current_sum, current_list)
 
         add(0, 0, [])
         return output
