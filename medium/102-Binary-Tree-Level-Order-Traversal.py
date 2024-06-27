@@ -11,13 +11,17 @@ Given the root of a binary tree, return the level order traversal of its nodes' 
 #         self.right = right
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        if not root: return []
-        queue, levels = [(root, 0)], defaultdict(list)
+        queue, output = deque(), []
+        queue.append(root)
 
         while queue:
-            node, lvl = queue.pop()
-            levels[lvl].append(node.val)
-            if node.right: queue.append((node.right, lvl + 1))
-            if node.left: queue.append((node.left, lvl + 1))
+            length, lvl = len(queue), []
+            for i in range(length):
+                node = queue.popleft()
+                if node:
+                    lvl.append(node.val)
+                    queue.append(node.left)
+                    queue.append(node.right)
+            if lvl: output.append(lvl)
         
-        return levels.values()
+        return output
