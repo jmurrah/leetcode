@@ -15,7 +15,4 @@ class Solution:
                 output[index] = i - index
             stack.append(i)
 
-        while len(output) < len(temperatures):
-            output.append(0)
-
         return output
