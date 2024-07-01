@@ -10,15 +10,14 @@ class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
         count = defaultdict(int)
         l = longest = 0
-        max_key = s[0]
+        max_freq = 1
 
         for r, char in enumerate(s):
             count[char] += 1
-            if count[char] > count[max_key]: max_key = char
+            if count[char] > max_freq: max_freq = count[char]
 
-            while (r-l+1) - count[max_key] > k:
+            while (r-l+1) - max_freq > k:
                 count[s[l]] -= 1
-                if s[l] == max_key: max_key = max(count, key=count.get)
                 l += 1
 
             longest = (max(longest, r-l+1))
