@@ -26,10 +26,9 @@ class MedianFinder:
         else:
             heappush(self.small, -num)
 
-        while len(self.small) - len(self.large) >= 2:
+        if len(self.small) - len(self.large) == 2:
             heappush(self.large, -heappop(self.small))
-        
-        while len(self.large) - len(self.small) >= 2:
+        if len(self.large) - len(self.small) == 2:
             heappush(self.small, -heappop(self.large))
 
 
