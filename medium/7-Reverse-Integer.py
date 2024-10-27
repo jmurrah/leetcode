@@ -8,18 +8,13 @@ Assume the environment does not allow you to store 64-bit integers (signed or un
 
 class Solution:
     def reverse(self, x: int) -> int:
-        sx, zc = list(str(x)), 0
-        pre = "-" if sx[0] == "-" else ""
-        length = len(sx)
+        positive, x, ans = x >= 0, abs(x), 0
+        
+        while x:
+            ans = (ans * 10) + (x % 10)
+            x //= 10
+        
+        if not positive:
+            ans = -ans
 
-        if length == 1 or (length == 2 and pre):
-            return x
-
-        i = length
-        while i <= 0 and sx[i] == "0":
-            zc += 1
-            i -= 1
-
-        sx = sx[1:length-zc] if pre else sx[:length-zc]
-        output = int("".join([pre] + sx[::-1]))
-        return output if -math.pow(2, 31) < output < math.pow(2, 31) else 0
+        return ans if -2**31 < ans < 2**31 else 0
