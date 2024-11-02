@@ -20,11 +20,9 @@ Given a string sentence, return true if it is circular. Otherwise, return false.
 class Solution:
     def isCircularSentence(self, sentence: str) -> bool:
         sentence = sentence.split()
-        first = prev = sentence[0]
 
-        for word in sentence[1:]:
-            if word[0] != prev[-1]:
+        for i in range(len(sentence)):
+            if sentence[i-1][-1] != sentence[i][0]:
                 return False
-            prev = word
         
-        return sentence[-1][-1] == first[0]
+        return True
