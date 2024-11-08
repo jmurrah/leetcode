@@ -17,24 +17,24 @@ to both the Pacific and Atlantic oceans.
 
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
-        pac, atl = set(), set()
+        pacific, atlantic = set(), set()
 
-        def dfs(x, y, seen, prev):
-            if not (0 <= x < len(heights) and 0 <= y < len(heights[0])) or heights[x][y] < prev or (x, y) in seen:
+        def search(x, y, s, prev):
+            if (x, y) in s or not (0 <= x < len(heights) and 0 <= y < len(heights[0])) or not heights[x][y] >= prev:
                 return
-            
-            seen.add((x, y))
-            dfs(x + 1, y, seen, heights[x][y])
-            dfs(x - 1, y, seen, heights[x][y])
-            dfs(x, y + 1, seen, heights[x][y])
-            dfs(x, y - 1, seen, heights[x][y])
+            s.add((x, y))
+            search(x+1, y, s, heights[x][y])
+            search(x, y+1, s, heights[x][y])
+            search(x-1, y, s, heights[x][y])
+            search(x, y-1, s, heights[x][y])
 
-        for row in range(len(heights)):
-            dfs(row, 0, pac, float("-inf"))
-            dfs(row, len(heights[0])-1, atl, float("-inf"))
+        for i in range(len(heights)):
+            search(i, 0, pacific, heights[i][0])
+            search(i, len(heights[0])-1, atlantic, heights[i][len(heights[0])-1])
 
-        for col in range(len(heights[0])):
-            dfs(0, col, pac, float("-inf"))
-            dfs(len(heights)-1, col, atl, float("-inf"))
-        
-        return pac & atl
+        for j in range(len(heights[0])):
+            search(0, j, pacific, heights[0][j])
+            search(len(heights)-1, j, atlantic, heights[len(heights)-1][j])
+
+        return list(pacific & atlantic)
+
