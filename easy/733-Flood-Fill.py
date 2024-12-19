@@ -25,13 +25,12 @@ class Solution:
         dq = deque([(sr, sc)])
         
         while dq:
-            for i in range(len(dq)):
-                row, col = dq.pop()
-                if 0 <= row < len(image) and 0 <= col < len(image[0]) and image[row][col] == original_color:
-                    image[row][col] = color
-                    dq.appendleft((row+1, col))
-                    dq.appendleft((row-1, col))
-                    dq.appendleft((row, col+1))
-                    dq.appendleft((row, col-1))
+            row, col = dq.pop()
+            if 0 <= row < len(image) and 0 <= col < len(image[0]) and image[row][col] == original_color:
+                image[row][col] = color
+                dq.appendleft((row+1, col))
+                dq.appendleft((row-1, col))
+                dq.appendleft((row, col+1))
+                dq.appendleft((row, col-1))
         
         return image
