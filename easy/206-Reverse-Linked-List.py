@@ -10,12 +10,9 @@ Given the head of a singly linked list, reverse the list, and return the reverse
 #         self.next = next
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        c, r = head, None
+        curr, dummy = head, None
 
-        while c:
-            placeholder = ListNode(c.val)
-            placeholder.next = r if r else None
-            r = placeholder
-            c = c.next
-        
-        return r
+        while curr:
+            dummy, dummy.next, curr = curr, dummy, curr.next
+
+        return dummy
