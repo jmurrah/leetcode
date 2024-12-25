@@ -10,10 +10,23 @@ Given the head of a singly linked list, return true if it is a palindrome or fal
 #         self.next = next
 class Solution:
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        c, v = head, []
+        if not head:
+            return True
 
-        while c:
-            v.append(c.val)
-            c = c.next
-
-        return v == v[::-1]
+        slow, fast = head, head
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        slow = slow.next
+        
+        prev = None
+        while slow:
+            prev, prev.next, slow = slow, prev, slow.next
+        
+        while prev:
+            if head.val != prev.val:
+                return False
+            head = head.next
+            prev = prev.next
+        
+        return True
