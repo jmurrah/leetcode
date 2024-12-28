@@ -5,10 +5,7 @@ Given an array nums containing n distinct numbers in the range [0, n], return th
 
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
-        s = set(nums)
-        
-        for n in range(len(nums)):
-            if n not in s:
-                return n
-            
-        return len(nums)
+        xor = len(nums)
+        for i, num in enumerate(nums):
+            xor ^= i ^ num
+        return xor 
