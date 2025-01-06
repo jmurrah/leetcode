@@ -45,9 +45,11 @@ class Solution:
             return
         
         target_num = nums[idx_to_swap]
-        next_idx = len(nums) - 1
-        while next_idx > idx_to_swap and nums[next_idx] <= nums[idx_to_swap]:
-            next_idx -= 1
+        next_idx = -1
+        for i in range(len(nums)-1, idx_to_swap, -1):
+            if nums[i] > target_num:
+                next_idx = i
+                break
         
         nums[idx_to_swap], nums[next_idx] = nums[next_idx], nums[idx_to_swap]
         self.reverse(idx_to_swap + 1, nums)
