@@ -12,29 +12,29 @@ Return an array containing all the safe nodes of the graph. The answer should be
 
 class Solution:
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
-        # 1 = safe, 0 = visited, -1 = not safe
-        safe = [-2] * len(graph)
+        # 1 = safe, 0 = not safe, -1 = visited, -2 = unvisited
+        flags = [-2] * len(graph)
 
         def find_safe(index):
-            if safe[index] == 1:
+            if flags[index] == 1:
                 return True
-            if safe[index] == -1:
+            if flags[index] == 0:
                 return False
-            if safe[index] == 0:
-                safe[index] = -1
+            if flags[index] == -1:
+                flags[index] = 0
                 return False
 
-            safe[index] = 0
-            for node in graph[index]:
-                if not find_safe(node):
-                    safe[index] = -1
+            flags[index] = -1
+            for neighbor in graph[index]:
+                if not find_safe(neighbor):
+                    flags[index] = -1
                     return False
             
-            safe[index] = 1
+            flags[index] = 1
             return True
         
         for i in range(len(graph)):
             find_safe(i)
 
-        return [i for i, flag in enumerate(safe) if flag == 1]
+        return [i for i, flag in enumerate(flags) if flag == 1]
         
