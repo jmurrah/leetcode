@@ -13,7 +13,7 @@ class Solution:
 
         for i in range(1, len(nums)):
             if nums[i] < nums[i-1]:
-                if is_rotated or nums[i] > nums[i-1]:
+                if is_rotated:
                     return False
                 is_rotated = True
         
