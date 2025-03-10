@@ -10,7 +10,6 @@ class Solution:
 
         for i, num in enumerate(nums):
             pref_sum += 1 if num else -1
-
             if pref_sum in d:
                 output = max(output, i - d[pref_sum])
             else:
