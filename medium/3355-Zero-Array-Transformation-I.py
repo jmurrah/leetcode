@@ -22,9 +22,8 @@ class Solution:
         curr = 0
         for i in range(len(nums)):
             curr += differences[i]
-            if nums[i] + curr > 0:
-                nums[i] += curr
-            else:
-                nums[i] = 0
+            nums[i] += curr
+            if nums[i] > 0:
+                return False
         
-        return sum(nums) == 0
+        return True
