@@ -19,7 +19,7 @@ class Solution:
         l, r = min(nums), max(nums)
 
         while l < r:
-            m = l + (r - l) // 2
+            m = (l + r) // 2
             i = count = 0
             while i < len(nums):
                 if nums[i] <= m:
