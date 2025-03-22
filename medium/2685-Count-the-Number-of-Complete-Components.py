@@ -13,40 +13,27 @@ A connected component is said to be complete if there exists an edge between eve
 class Solution:
     def countCompleteComponents(self, n: int, edges: List[List[int]]) -> int:
         adj = defaultdict(list)
-        indegree = defaultdict(int)
         for n1, n2 in edges:
             adj[n1].append(n2)
             adj[n2].append(n1)
-            indegree[n1] += 1
-            indegree[n2] += 1
 
         seen = set()
-        def bfs(node):
+        def dfs(node, group):
             if node in seen:
                 return []
-
-            group = set([node])
-            seen.add(node)
-
-            dq = deque([node])
-            while dq:
-                node = dq.pop()
-                for neighbor in adj[node]:
-                    if neighbor not in group:
-                        seen.add(neighbor)
-                        group.add(neighbor)
-                        dq.appendleft(neighbor)
             
-            return list(group)
+            seen.add(node)
+            group.append(node)
+            for neighbor in adj[node]:
+                dfs(neighbor, group)
                 
-        groups = []
-        for node in range(n):
-            group = bfs(node)
-            if group:
-                groups.append(group)
-
+            return group
+                
         output = 0
-        for group in groups:
-            output += int(all([indegree[node] == len(group) - 1 for node in group]))
+        for node in range(n):
+            group = dfs(node, [])
+            if group and all([len(adj[node]) == len(group) - 1 for node in group]):
+                output += 1
 
         return output
+
