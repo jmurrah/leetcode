@@ -15,25 +15,19 @@ Return the resulting array answer.
 
 class Solution:
     def maxPoints(self, grid: List[List[int]], queries: List[int]) -> List[int]:
-        points = defaultdict(int)
-        dq, fringe, seen = deque([(grid[0][0], 0, 0)]), [], set([(0, 0)])
-        prev_q = p = 0
+        answers = {}
+        sq = sorted(queries)
+        heap, seen = [(grid[0][0], 0, 0)], set([(0, 0)])
+        p = i = 0
 
-        while dq or fringe:
-            if dq:
-                q, r, c = dq.popleft()
-                prev_q = max(prev_q, q)
-                p += 1
-                points[q] = p
-            else:
-                q, r, c = heappop(fringe)
-                dq.append((q, r, c))
-                while fringe and fringe[0][0] == q:
-                    dq.append(heappop(fringe))
-                for i in range(prev_q, q):
-                    points[i] = p
-                continue
-
+        while heap:
+            q, r, c = heappop(heap)
+            while i < len(sq) and q >= sq[i]:
+                answers[sq[i]] = p
+                i += 1
+            if i >= len(sq):
+                break
+            p += 1
             for ro, co in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
                 row, col = r + ro, c + co
                 if (
@@ -42,12 +36,9 @@ class Solution:
                 ):
                     continue
                 seen.add((row, col))
-                if grid[row][col] <= q:
-                    dq.append((q, row, col))
-                else:
-                    heappush(fringe, (grid[row][col], row, col))
+                heappush(heap, (grid[row][col], row, col))
 
-        for i in range(prev_q, max(queries)):
-            points[i] = p
+        for j in range(i, len(sq)):
+            answers[sq[j]] = p
             
-        return [points[q-1] for q in queries]
+        return [answers[q] for q in queries]
