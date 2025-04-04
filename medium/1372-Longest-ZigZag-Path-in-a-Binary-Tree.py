@@ -20,12 +20,15 @@ Return the longest ZigZag path contained in that tree.
 #         self.val = val
 #         self.left = left
 #         self.right = right
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def longestZigZag(self, root: Optional[TreeNode]) -> int:
         def dfs(r, length, goLeft):
-            if not r:
-                return length - 1
-            
             output = length
             if r.left:
                 output = max(output, dfs(r.left, length + 1 if goLeft else 1, False))
