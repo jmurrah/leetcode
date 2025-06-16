@@ -8,15 +8,10 @@ Return the maximum difference. If no such i and j exists, return -1.
 
 class Solution:
     def maximumDifference(self, nums: List[int]) -> int:
-        before = [float("inf")] * (len(nums) + 1)
-        after = [float("-inf")] * (len(nums) + 1)
-
-        for i in range(1, len(nums)+1):
-            before[i] = nums[i-1] if nums[i-1] < before[i-1] else before[i-1]
+        output, c_min = float("-inf"), nums[0]
+        for i in range(1, len(nums)):
+            if nums[i] > c_min:
+                output = max(output, nums[i] - c_min)
+            c_min = min(nums[i], c_min)
         
-        for i in range(len(nums)-1, -1, -1):
-            after[i] = nums[i] if nums[i] > after[i+1] else after[i+1]
-
-        out = max([after[i] - before[i+1] for i in range(len(nums))])
-        return out if out != 0 else -1
-      
+        return output if output != float("-inf") else -1
