@@ -7,29 +7,28 @@ You must solve the problem without using any built-in functions in O(nlog(n)) ti
 
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        if len(nums) == 1: return nums
+        def quicksort(l, r):
+            if r <= l:
+                return
 
-        def merge(l1, l2):
-            combined = []
-            while l1 and l2:
-                if l1[0] < l2[0]:
-                    combined.append(l1[0])
-                    l1.popleft()
-                else:
-                    combined.append(l2[0])
-                    l2.popleft()
-            
-            while l1 or l2:
-                if l1:
-                    combined.append(l1[0])
-                    l1.popleft()
-                else:
-                    combined.append(l2[0])
-                    l2.popleft()
-            
-            return combined
+            p = (l + r) // 2
+            ls, rs = l, r
+            nums[p], nums[r] = nums[r], nums[p]
 
-        m = len(nums) // 2
-        l1 = deque(self.sortArray(nums[:m]))
-        l2 = deque(self.sortArray(nums[m:]))
-        return merge(l1, l2)
+            r -= 1
+            while l <= r:
+                while l <= r and nums[l] < nums[rs]:
+                    l += 1
+                while l <= r and nums[r] > nums[rs]:
+                    r -= 1
+                if l <= r:
+                     nums[l], nums[r] = nums[r], nums[l]
+                     l += 1
+                     r -= 1
+
+            nums[l], nums[rs] = nums[rs], nums[l]
+            quicksort(ls, l-1)
+            quicksort(l+1, rs)
+        
+        quicksort(0, len(nums)-1)
+        return nums
